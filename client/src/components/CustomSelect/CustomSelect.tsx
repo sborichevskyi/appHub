@@ -3,7 +3,7 @@ import Select, { type MultiValue, type SingleValue } from "react-select";
 export type Option = {
   label: string;
   value: string;
-  query?: string;
+  query: string;
 };
 
 type Props = {
@@ -23,11 +23,9 @@ export const CustomSelect = ({
   onChange,
   isMulti = false,
   max,
-  placeholder
+  placeholder,
 }: Props) => {
-  const handleChange = (
-    newValue: MultiValue<Option> | SingleValue<Option>
-  ) => {
+  const handleChange = (newValue: MultiValue<Option> | SingleValue<Option>) => {
     if (isMulti) {
       const arr = [...(newValue as MultiValue<Option>)];
       onChange(max ? arr.slice(0, max) : arr);
@@ -44,9 +42,12 @@ export const CustomSelect = ({
       onChange={handleChange}
       isMulti={isMulti}
       placeholder={placeholder}
-      isOptionDisabled={() =>
-        isMulti && max ? (value as Option[])?.length >= max : false
-      }
+      isOptionDisabled={() => {
+        if (!isMulti || !max) return false;
+
+        const current = Array.isArray(value) ? value : [];
+        return current.length >= max;
+      }}
     />
   );
 };
