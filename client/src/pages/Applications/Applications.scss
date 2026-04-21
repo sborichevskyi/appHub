@@ -1,0 +1,34 @@
+@use '../../styles/index' as *;
+
+.applications-container {
+  @include padding-inline;
+  @include padding-inrow;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  flex: 1;
+
+  p {
+    margin-bottom: auto;
+  }
+
+  ul {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  h1 {
+    margin-bottom: auto;
+  }
+}
+
+.applications-container-demo {
+  @include flex-center;
+  @include padding-inline;
+  @include padding-inrow;
+  flex-direction: column;
+  width: 100%;
+}

@@ -1,0 +1,96 @@
+@use '../../styles/index' as *;
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatGlow {
+  0% {
+    transform: translate(-20%, -20%);
+  }
+  50% {
+    transform: translate(20%, 20%);
+  }
+  100% {
+    transform: translate(-20%, -20%);
+  }
+}
+
+.hero {
+  animation: heroFadeIn 2s ease forwards;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  
+
+    &::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 123, 255, 0.3), transparent);
+    filter: blur(120px);
+    animation: floatGlow 6s ease-in-out infinite;
+  }
+
+  @include on-desktop {
+    margin-top: 62px;
+  }
+
+  &__buttons {
+    margin-top: 12px;
+    display: flex;
+    gap: 18px;
+  }
+
+  h1 {
+    opacity: 0;
+    animation: fadeUp 1.5s ease forwards;
+    animation-delay: 0.2s;
+    font-size: 48px;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--color-text), var(--color-text-muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    opacity: 0;
+    animation: fadeUp 1.5s ease forwards;
+    animation-delay: 0.4s;
+    background: linear-gradient(90deg, var(--color-text), var(--color-text-muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__buttons {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+    animation-delay: 0.6s;  
+  }
+}

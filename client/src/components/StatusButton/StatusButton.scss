@@ -1,0 +1,131 @@
+@use '../../styles/index' as *;
+
+.step {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  &.not_applied {
+    background: conic-gradient(
+      var(--color-text-muted) 0% 5%,
+      var(--color-border) 5% 100%
+    );
+
+    &:hover {
+      // background: conic-gradient(
+      //   var(--color-primary) 0% 15%,
+      //   var(--color-border) 15% 100%
+      // );
+      cursor: pointer;
+    }
+  }
+  
+  &.applied {
+    background: conic-gradient(
+      var(--color-primary) 0% 10%,
+      var(--color-border) 10% 100%
+    );
+
+    &:hover {
+      // background: conic-gradient(
+      //   var(--color-success) 0% 50%,
+      //   var(--color-border) 50% 100%
+      // );
+      cursor: pointer;
+    }
+  }
+
+  &.interview {
+    background: conic-gradient(
+      var(--color-success) 0% 50%,
+      var(--color-border) 50% 100%
+    );
+
+    &:hover {
+      // background: conic-gradient(
+      //   var(--color-danger) 0% 90%,
+      //   var(--color-border) 90% 100%
+      // );
+      cursor: pointer;
+    }
+  }
+
+  &.rejected {
+    background: conic-gradient(
+      var(--color-danger) 0% 90%,
+      var(--color-border) 90% 100%
+    );
+
+    &:hover {
+      // background: conic-gradient(
+      //   var(--color-hired) 0% 95%,
+      //   var(--color-border) 95% 100%
+      // );
+      cursor: pointer;
+    }
+  }
+
+  &.hired {
+    background: conic-gradient(
+      var(--color-hired) 0% 95%,
+      var(--color-border) 95% 100%
+    );
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+  }
+
+  @include on-tablet {
+    width: 40px;
+    height: 40px;
+
+    &::before {
+      width: 27px;
+      height: 27px;
+    }
+  }
+}
+
+.status-wrapper {
+  position: relative;
+}
+
+.status-dropdown {
+  position: absolute;
+  top: 50px;
+  right: -150%;
+
+  background: var(--color-bg);
+  border-radius: 10px;
+  padding: 8px 0;
+  width: 160px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.status-option {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: var(--color-border);
+  }
+}

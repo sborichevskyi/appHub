@@ -1,0 +1,72 @@
+@use '../../styles/index' as *;
+
+.job-card {
+  @include flex-center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  max-width: 1000px;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-text-muted);
+  }
+
+  &__actions {
+    @include flex-center;
+    flex-direction: column;
+    gap: 15px;
+
+    @include on-desktop {
+      flex-direction: row;
+    }
+  }
+
+  &__more {
+    color: var(--color-primary);
+    cursor: pointer;
+  }
+
+  a {
+    color: var(--color-text);
+  }
+}
+
+.job-card__description {
+  max-height: 70px;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  padding: 10px 0;
+  border-radius: 8px;
+  background-color: var(--card-bg);
+
+  @include on-desktop {
+    max-height: 900px;
+  }
+}
+
+.job-card__description.expanded {
+  max-height: 1000px;
+}
+
+.job-card__more {
+  cursor: pointer;
+  color: #3b82f6;
+  font-weight: 500;
+  margin-top: 4px;
+  display: inline-block;
+
+  @include on-desktop {
+    display: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

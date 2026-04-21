@@ -1,0 +1,57 @@
+@use '../tokens/displaySizes' as *;
+
+@mixin on-tablet {
+  @media (min-width: $tablet-min-width) {
+    @content;
+  }
+}
+
+@mixin on-desktop {
+  @media (min-width: $desktop-min-width) {
+    @content;
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin padding-inline {
+    padding-left: 20px;
+    padding-right: 20px;
+
+  @include on-tablet {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @include on-desktop {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+}
+
+@mixin padding-inrow {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+  @include on-tablet {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  @include on-desktop {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+@mixin page-margin {
+  margin-top: 56px;
+
+  @include on-desktop {
+    margin-top: 67px;
+  }
+}

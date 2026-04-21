@@ -1,0 +1,58 @@
+@use '../../styles/index' as *;
+
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  background-color: var(--color-bg);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  font-size: 14px;
+
+  @include on-desktop {
+    font-size: 16px;
+  }
+
+  p {
+    font-size: 14px;
+
+    @include on-desktop {
+      font-size: 16px;
+    }
+  }
+
+  &__links {
+    padding: 16px 20px 0;
+    display: flex;
+    max-width: 800px;
+    width: 85%;
+    justify-content: space-between;
+
+    a {
+      color: var(--color-text-muted);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @include on-desktop {
+      height: 60px;
+    }
+  }
+
+  &__copyright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 12px;
+    background-color: #f0f0f0;
+
+    @include on-desktop {
+      height: 40px;
+    }
+  }
+}

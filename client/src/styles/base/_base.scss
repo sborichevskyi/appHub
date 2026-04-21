@@ -1,0 +1,45 @@
+* {
+  font-family: var(--font-heading);
+}
+
+body {
+  font-family: var(--font-main);
+  font-size: var(--fs-md);
+  line-height: var(--lh-base);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--fs-xl);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-bold);
+}
+
+h2 {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+}
+
+p {
+  font-size: var(--fs-md);
+  line-height: var(--lh-loose);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+input {
+  height: 36px;
+  font-size: 15px;
+  color: rgb(15, 23, 42);
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 4px;
+  padding: 0 8px;
+}

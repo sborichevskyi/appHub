@@ -1,0 +1,21 @@
+export const countries = [
+  { label: "United States", value: "United States", query: "us" },
+  { label: "United Kingdom", value: "United Kingdom", query: "gb" },
+  { label: "Canada", value: "Canada", query: "ca" },
+  { label: "Germany", value: "Germany", query: "de" },
+  { label: "France", value: "France", query: "fr" },
+  { label: "Italy", value: "Italy", query: "it" },
+  { label: "Spain", value: "Spain", query: "es" },
+  { label: "Netherlands", value: "Netherlands", query: "nl" },
+  { label: "Switzerland", value: "Switzerland", query: "ch" },
+  { label: "Poland", value: "Poland", query: "pl" },
+  { label: "Austria", value: "Austria", query: "at" },
+  { label: "Belgium", value: "Belgium", query: "be" },
+  { label: "Australia", value: "Australia", query: "au" },
+  { label: "New Zealand", value: "New Zealand", query: "nz" },
+  { label: "Brazil", value: "Brazil", query: "br" },
+  { label: "Mexico", value: "Mexico", query: "mx" },
+  { label: "India", value: "India", query: "in" },
+  { label: "Singapore", value: "Singapore", query: "sg" },
+  { label: "South Africa", value: "South Africa", query: "za" }
+];
