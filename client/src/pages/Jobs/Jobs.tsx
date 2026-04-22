@@ -15,10 +15,10 @@ import { useGetUserApplicationsQuery } from "../../features/applications/applica
 import type { Application } from "../../features/applications/applocationSlice";
 
 const sortOptions: Option[] = [
-  { label: "New", value: "new" },
-  { label: "Old", value: "old" },
-  { label: "Saved first", value: "saved_desc" },
-  { label: "Saved last", value: "saved_asc" },
+  { label: "New", value: "new", query: "New" },
+  { label: "Old", value: "old", query: "Old" },
+  { label: "Saved first", value: "saved_desc", query: "Saved first" },
+  { label: "Saved last", value: "saved_asc", query: "Saved last" },
 ];
 
 export const Jobs: React.FC = () => {
