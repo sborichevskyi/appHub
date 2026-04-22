@@ -7,14 +7,14 @@ import { Application } from './models/Application';
 import { RefreshToken } from './models/RefreshToken';
 import { Comment } from './models/Comment';
 
-export const sequelize = new Sequelize({
-  database: 'appHub',
-  username: 'postgres',
-  password: '1234',
-  host: 'localhost',
-  port: 5432,
+export const sequelize = new Sequelize(process.env.DATABASE_URL as string, {
   dialect: 'postgres',
-  models: [User, UserProfile, Job, Application, RefreshToken, Comment],
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 });
 
 export const initDb = async () => {
