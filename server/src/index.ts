@@ -26,13 +26,13 @@ async function bootstrap() {
 
     app.use(
       cors({
-        origin: process.env.CLIENT_URL || 'http://localhost:5173',
+        origin: process.env.CLIENT_URL,
         credentials: true,
       }),
     );
 
     // 1️⃣ React build
-    app.use(express.static(path.join(__dirname, 'client_build')));
+    // app.use(express.static(path.join(__dirname, 'client_build')));
 
     // 2️⃣ API
     app.get('/api', (req, res) => {
@@ -47,9 +47,9 @@ async function bootstrap() {
     app.use('/comments', commentRouter);
 
     // 3️⃣ React BrowserRouter
-    app.use((req, res) => {
-      res.sendFile(path.join(__dirname, 'client_build', 'index.html'));
-    });
+    // app.use((req, res) => {
+    //   res.sendFile(path.join(__dirname, 'client_build', 'index.html'));
+    // });
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
