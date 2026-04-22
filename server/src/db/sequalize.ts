@@ -13,8 +13,8 @@ export const sequelize = new Sequelize(process.env.DATABASE_URL as string, {
       require: true,
       rejectUnauthorized: false,
     },
-    models: [User, UserProfile, Job, Application, RefreshToken, Comment],
   },
+  models: [User, UserProfile, Job, Application, RefreshToken, Comment],
 });
 
 export const initDb = async () => {
