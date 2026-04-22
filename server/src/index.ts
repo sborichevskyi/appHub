@@ -23,15 +23,12 @@ async function bootstrap() {
 
     app.use(
       cors({
-        origin: process.env.CLIENT_URL,
+        origin: ["https://app-hub-wheat.vercel.app"],
         credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
       }),
     );
     app.use(cookieParser());
     app.use(express.json());
-
 
     app.get("/api", (req, res) => {
       res.json({ message: "Hello from server!" });
