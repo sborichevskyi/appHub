@@ -14,6 +14,7 @@ import { Provider } from 'react-redux'
 import { store } from './redux/store';
 import { Applications } from './pages/Applications/Applications';
 import { JobDetails } from './pages/JobDetails/JobDetails';
+import { Activate } from './pages/Activate/Activate';
 
 function Root() {
   return (
@@ -28,6 +29,7 @@ function Root() {
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/jobs/:id" element={<JobDetails />} />
             <Route path="/applications" element={<Applications />} />
+            <Route path="/auth/activate" element={<Activate />} />
             <Route path="home" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
