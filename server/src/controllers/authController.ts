@@ -37,7 +37,7 @@ const register = async (req: Request, res: Response) => {
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = await userModel.createUser(name, email, passwordHash);
     const activationBaseUrl =
-      process.env.ACTIVATION_BASE_URL || "http://localhost:5000/auth/activate";
+      process.env.ACTIVATION_BASE_URL || "https://app-hub-wheat.vercel.app/auth/activate";
     if (!newUser.activationToken) {
       throw new Error("Activation token was not generated");
     }
@@ -78,7 +78,7 @@ const activate = async (req: Request, res: Response) => {
     const { accessToken, refreshToken } = await generateTokens(user);
 
     const redirectUrl =
-      process.env.CLIENT_PROFILE_URL || "http://localhost:5173/profile";
+      process.env.CLIENT_PROFILE_URL || "https://app-hub-wheat.vercel.app/profile";
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true as const,
