@@ -95,7 +95,9 @@ const activate = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: "activated" });
   } catch (err) {
-    return res.status(500).json({ message: "Activation failed" });
+      console.error("ACTIVATION ERROR:", err);
+      
+      return res.status(500).json({ message: "Activation failed" });
   }
 };
 
