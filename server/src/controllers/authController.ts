@@ -77,9 +77,6 @@ const activate = async (req: Request, res: Response) => {
 
     const { accessToken, refreshToken } = await generateTokens(user);
 
-    const redirectUrl =
-      process.env.CLIENT_PROFILE_URL || "https://app-hub-wheat.vercel.app/profile";
-
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true as const,
       sameSite: "none",
@@ -96,7 +93,7 @@ const activate = async (req: Request, res: Response) => {
       maxAge: 5 * 60 * 1000,
     });
 
-    return res.redirect(redirectUrl);
+    return res.status(200).json({ message: "activated" });
   } catch (err) {
     return res.status(500).json({ message: "Activation failed" });
   }

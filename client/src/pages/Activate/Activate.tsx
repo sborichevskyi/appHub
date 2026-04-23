@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export const Activate = () => {
   const [params] = useSearchParams();
   const token = params.get("token");
+  const navigate = useNavigate();
 
   const [status, setStatus] = useState("loading");
 
@@ -26,6 +27,16 @@ export const Activate = () => {
         setStatus("error");
       });
   }, [token]);
+
+  useEffect(() => {
+    if (status === "success") {
+      const timer = setTimeout(() => {
+        navigate("/profile");
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [status, navigate]);
 
   if (status === "loading") return <h1>Activating...</h1>;
   if (status === "success") return <h1>✅ Account activated</h1>;
