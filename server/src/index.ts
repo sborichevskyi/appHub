@@ -12,11 +12,12 @@ import { jobsRouter } from "./routers/jobs.router";
 import { applicationsRouter } from "./routers/applications.router";
 import { commentRouter } from "./routers/comments.router";
 
-const isProd = process.env.NODE_ENV === "production";
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://app-hub-wheat.vercel.app",
+];
 
-const allowedOrigins = isProd
-  ? ["https://app-hub-wheat.vercel.app"]
-  : ["http://localhost:5173"];
+const PORT = process.env.PORT || 5000;
 
 async function bootstrap() {
   try {
@@ -44,8 +45,8 @@ async function bootstrap() {
     app.use("/applications", applicationsRouter);
     app.use("/comments", commentRouter);
 
-    app.listen(process.env.SERVER_ORIGIN, () => {
-      console.log(`🚀 Server running on port ${process.env.SERVER_ORIGIN}`);
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   } catch (error) {
     console.error("❌ Startup error", error);
