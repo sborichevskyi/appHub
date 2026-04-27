@@ -1,13 +1,13 @@
-import axios from 'axios';
-import dotenv from 'dotenv';
+import axios from "axios";
+import dotenv from "dotenv";
 
-import { AdzunaQueryBuilder } from '../query/adzunaQueryBuilder';
-import { UserProfile } from '../../db/models/UserProfile';
-import { ScrapedVacancy } from '../types';
+import { AdzunaQueryBuilder } from "../query/adzunaQueryBuilder";
+import { UserProfile } from "../../db/models/UserProfile";
+import { ScrapedVacancy } from "../types";
 dotenv.config();
 
 const normalize = (item: any, country: string): ScrapedVacancy => ({
-  source: 'adzuna',
+  source: "adzuna",
   externalId: item.id,
   title: item.title,
   company: item.company.display_name,
@@ -30,25 +30,28 @@ export const fetchAdzunaJobs = async (profile: UserProfile, page = 1) => {
   const url = `${process.env.ADZUNA_BASE_URL}/jobs/${country}/search/${page}`;
 
   try {
-    console.log('ADZUNA URL:', url);
-    console.log('ADZUNA INPUT:', profile);
+    console.log("ADZUNA URL:", url);
+    console.log("ADZUNA INPUT:", profile);
     const response = await axios.get(url, { params });
-    console.log('Adzuna request URL:', url);
-    console.log('Adzuna request params:', params);
+    console.log("Adzuna request params:", params);
 
     if (!response.data.results || response.data.results.length === 0) {
-      console.warn('No results returned from Adzuna');
+      console.warn("No results returned from Adzuna");
       return [];
     }
 
     if (!country) {
-      console.warn('Country is missing in profile, cannot normalize Adzuna data');
+      console.warn(
+        "Country is missing in profile, cannot normalize Adzuna data",
+      );
       return [];
     }
 
-    return response.data.results.map((item: any) => normalize(item, country.toUpperCase()));
+    return response.data.results.map((item: any) =>
+      normalize(item, country.toUpperCase()),
+    );
   } catch (err: any) {
-    console.error('Adzuna fetch error', err.response?.data || err.message);
+    console.error("Adzuna fetch error", err.response?.data || err.message);
     return [];
   }
 };
