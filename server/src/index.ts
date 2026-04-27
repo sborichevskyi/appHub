@@ -4,7 +4,6 @@ import express from "express";
 import { initDb } from "./db/sequalize";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import path from "path";
 
 import { userRouter } from "./routers/user.router";
 import { authRouter } from "./routers/auth.router";
@@ -13,7 +12,11 @@ import { jobsRouter } from "./routers/jobs.router";
 import { applicationsRouter } from "./routers/applications.router";
 import { commentRouter } from "./routers/comments.router";
 
-const PORT = 5000;
+const isProd = process.env.NODE_ENV === "production";
+
+const allowedOrigins = isProd
+  ? ["https://app-hub-wheat.vercel.app"]
+  : ["http://localhost:5173"];
 
 async function bootstrap() {
   try {
@@ -23,7 +26,7 @@ async function bootstrap() {
 
     app.use(
       cors({
-        origin: ["https://app-hub-wheat.vercel.app"],
+        origin: allowedOrigins,
         credentials: true,
       }),
     );
@@ -41,8 +44,8 @@ async function bootstrap() {
     app.use("/applications", applicationsRouter);
     app.use("/comments", commentRouter);
 
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
+    app.listen(process.env.SERVER_ORIGIN, () => {
+      console.log(`🚀 Server running on port ${process.env.SERVER_ORIGIN}`);
     });
   } catch (error) {
     console.error("❌ Startup error", error);
