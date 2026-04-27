@@ -30,6 +30,8 @@ export const fetchAdzunaJobs = async (profile: UserProfile, page = 1) => {
   const url = `${process.env.ADZUNA_BASE_URL}/jobs/${country}/search/${page}`;
 
   try {
+    console.log('ADZUNA URL:', url);
+    console.log('ADZUNA INPUT:', profile);
     const response = await axios.get(url, { params });
     console.log('Adzuna request URL:', url);
     console.log('Adzuna request params:', params);
