@@ -23,21 +23,13 @@ async function bootstrap() {
   try {
     const app = express();
 
+    // ⬇️ Ініціалізація БД ПЕРША (ДО того як сервер слухає)
+    await initDb();
+
     app.use((req, res, next) => {
       console.log("HIT:", req.method, req.url);
       next();
     });
-
-    app.get("/", (req, res) => {
-      res.send("OK");
-    });
-
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
-
-    // ⬇️ ВАЖЛИВО: після listen
-    await initDb();
 
     app.use(
       cors({
@@ -49,12 +41,21 @@ async function bootstrap() {
     app.use(cookieParser());
     app.use(express.json());
 
+    app.get("/", (req, res) => {
+      res.send("OK");
+    });
+
     app.use("/users", userRouter);
     app.use("/auth", authRouter);
     app.use("/profile", profileRouter);
     app.use("/jobs", jobsRouter);
     app.use("/applications", applicationsRouter);
     app.use("/comments", commentRouter);
+
+    // ⬇️ listen ОСТАННІМ (після всіх middleware та роутів)
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
 
   } catch (error) {
     console.error("❌ Startup error", error);
