@@ -148,41 +148,99 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
+// const refresh = async (req: Request, res: Response) => {
+//   try {
+//     const refreshToken = req.cookies.refreshToken;
+
+//     if (!refreshToken) {
+//       return res.status(401).json({ message: "Refresh token is required" });
+//     }
+
+//     const userData = jwtService.verifyRefreshToken(refreshToken);
+
+//     if (!userData) {
+//       return res.status(401).json({ message: "Invalid refresh token" });
+//     }
+
+//     const user = await userModel.findById(userData.id);
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     const tokens = await generateTokens(user);
+
+//     res.cookie("refreshToken", tokens.refreshToken, {
+//       httpOnly: true as const,
+//       sameSite: "none",
+//       secure: true,
+//       path: "/",
+//       maxAge: 30 * 24 * 60 * 60 * 1000,
+//     });
+
+//     return res.json({
+//       user: userModel.normalizeUser(user),
+//       accessToken: tokens.accessToken,
+//     });
+//   } catch (err) {
+//     return res.status(500).json({ message: "Refresh failed" });
+//   }
+// };
+
 const refresh = async (req: Request, res: Response) => {
+  console.log("STEP 1");
+
   try {
-    const refreshToken = req.cookies.refreshToken;
+    console.log("STEP 2");
+
+    const refreshToken = req.cookies?.refreshToken;
+    console.log("TOKEN:", refreshToken);
 
     if (!refreshToken) {
+      console.log("NO TOKEN");
       return res.status(401).json({ message: "Refresh token is required" });
     }
 
+    console.log("STEP 3");
+
     const userData = jwtService.verifyRefreshToken(refreshToken);
+    console.log("USER DATA:", userData);
 
     if (!userData) {
+      console.log("INVALID TOKEN");
       return res.status(401).json({ message: "Invalid refresh token" });
     }
 
+    console.log("STEP 4");
+
     const user = await userModel.findById(userData.id);
+    console.log("USER:", user);
 
     if (!user) {
+      console.log("NO USER");
       return res.status(404).json({ message: "User not found" });
     }
+
+    console.log("STEP 5");
 
     const tokens = await generateTokens(user);
 
     res.cookie("refreshToken", tokens.refreshToken, {
-      httpOnly: true as const,
+      httpOnly: true,
       sameSite: "none",
       secure: true,
       path: "/",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
+    console.log("STEP 6");
+
     return res.json({
       user: userModel.normalizeUser(user),
       accessToken: tokens.accessToken,
     });
   } catch (err) {
+    console.error("REFRESH ERROR:", err);
     return res.status(500).json({ message: "Refresh failed" });
   }
 };
