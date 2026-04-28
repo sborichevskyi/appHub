@@ -21,8 +21,6 @@ const PORT = Number(process.env.PORT || 8080);
 
 async function bootstrap() {
   try {
-    await initDb();
-
     const app = express();
 
     app.use((req, res, next) => {
@@ -30,22 +28,26 @@ async function bootstrap() {
       next();
     });
 
+    app.get("/", (req, res) => {
+      res.send("OK");
+    });
+
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+
+    // ⬇️ ВАЖЛИВО: після listen
+    await initDb();
+
     app.use(
       cors({
         origin: allowedOrigins,
         credentials: true,
       }),
     );
+
     app.use(cookieParser());
     app.use(express.json());
-
-    app.get("/", (req, res) => {
-      res.send("OK");
-    });
-
-    app.get("/api", (req, res) => {
-      res.json({ message: "Hello from server!" });
-    });
 
     app.use("/users", userRouter);
     app.use("/auth", authRouter);
@@ -54,10 +56,6 @@ async function bootstrap() {
     app.use("/applications", applicationsRouter);
     app.use("/comments", commentRouter);
 
-
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
   } catch (error) {
     console.error("❌ Startup error", error);
     process.exit(1);
