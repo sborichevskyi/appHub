@@ -9,10 +9,12 @@ import { Comment } from "./models/Comment";
 export const sequelize = new Sequelize(process.env.DATABASE_URL as string, {
   dialect: "postgres",
   dialectOptions: {
-    ssl:
-      process.env.NODE_ENV === "production"
-        ? { require: true, rejectUnauthorized: false }
-        : false,
+    // Railway потребує SSL для PostgreSQL
+    ssl: process.env.DATABASE_URL?.includes("railway")
+      ? { require: true, rejectUnauthorized: false }
+      : process.env.NODE_ENV === "production"
+      ? { require: true, rejectUnauthorized: false }
+      : false,
   },
   models: [User, UserProfile, Job, Application, RefreshToken, Comment],
 });
