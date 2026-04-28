@@ -25,6 +25,11 @@ async function bootstrap() {
 
     const app = express();
 
+    app.use((req, res, next) => {
+      console.log("HIT:", req.method, req.url);
+      next();
+    });
+
     app.use(
       cors({
         origin: allowedOrigins,
@@ -33,6 +38,10 @@ async function bootstrap() {
     );
     app.use(cookieParser());
     app.use(express.json());
+
+    app.get("/", (req, res) => {
+      res.send("OK");
+    });
 
     app.get("/api", (req, res) => {
       res.json({ message: "Hello from server!" });
@@ -44,10 +53,7 @@ async function bootstrap() {
     app.use("/jobs", jobsRouter);
     app.use("/applications", applicationsRouter);
     app.use("/comments", commentRouter);
-    app.use((req, res, next) => {
-      console.log("HIT:", req.method, req.url);
-      next();
-    });
+
 
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
