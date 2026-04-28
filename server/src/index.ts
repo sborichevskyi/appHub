@@ -22,6 +22,8 @@ const PORT = Number(process.env.PORT || 5000);
 async function bootstrap() {
   try {
     const app = express();
+    console.log("RAW PORT =", process.env.PORT);
+    console.log("FINAL PORT =", PORT);
 
     // ⬇️ Ініціалізація БД ПЕРША (ДО того як сервер слухає)
     await initDb();
