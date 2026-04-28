@@ -17,7 +17,7 @@ const allowedOrigins = [
   "https://app-hub-wheat.vercel.app",
 ];
 
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT || 8080);
 
 async function bootstrap() {
   try {
@@ -44,8 +44,12 @@ async function bootstrap() {
     app.use("/jobs", jobsRouter);
     app.use("/applications", applicationsRouter);
     app.use("/comments", commentRouter);
+    app.use((req, res, next) => {
+      console.log("HIT:", req.method, req.url);
+      next();
+    });
 
-    app.listen(Number(PORT), '0.0.0.0', () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
   } catch (error) {
