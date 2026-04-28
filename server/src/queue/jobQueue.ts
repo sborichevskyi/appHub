@@ -1,13 +1,17 @@
-import dotenv from "dotenv";
 import Queue from "bull";
-dotenv.config();
 
-export const jobQueue = new Queue("fetch-jobs", process.env.REDIS_URL as string);
+const hasUrl = !!process.env.REDIS_URL;
+const hasHost = !!process.env.REDIS_HOST;
 
-jobQueue.on("error", (err) => {
-  console.error("Redis connection error:", err);
-});
+if (!hasUrl && !hasHost) {
+  throw new Error("❌ Redis config missing");
+}
 
-jobQueue.on("ready", () => {
-  console.log("✅ Connected to Redis at", jobQueue.client.options);
-});
+export const jobQueue = hasUrl
+  ? new Queue("fetch-jobs", process.env.REDIS_URL!)
+  : new Queue("fetch-jobs", {
+      redis: {
+        host: process.env.REDIS_HOST!,
+        port: Number(process.env.REDIS_PORT || 6379),
+      },
+    });

@@ -17,7 +17,7 @@ const allowedOrigins = [
   "https://app-hub-wheat.vercel.app",
 ];
 
-const PORT = Number(process.env.PORT || 8080);
+const PORT = Number(process.env.PORT || 5000);
 
 async function bootstrap() {
   try {

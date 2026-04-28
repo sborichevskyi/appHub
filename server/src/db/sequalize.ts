@@ -6,43 +6,32 @@ import { Application } from "./models/Application";
 import { RefreshToken } from "./models/RefreshToken";
 import { Comment } from "./models/Comment";
 
-export const sequelize = new Sequelize(process.env.DATABASE_URL as string, {
-  dialect: "postgres",
-  dialectOptions: {
-    // Railway потребує SSL для PostgreSQL
-    ssl: process.env.DATABASE_URL?.includes("railway")
-      ? { require: true, rejectUnauthorized: false }
-      : process.env.NODE_ENV === "production"
-      ? { require: true, rejectUnauthorized: false }
-      : false,
-  },
-  models: [User, UserProfile, Job, Application, RefreshToken, Comment],
-});
+console.log("DB URL:", process.env.DATABASE_URL);
 
-// const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === "production";
 
-// export const sequelize = process.env.DATABASE_URL
-//   ? new Sequelize(process.env.DATABASE_URL, {
-//       dialect: "postgres",
-//       models: [User, UserProfile, Job, Application, RefreshToken, Comment],
-//       dialectOptions: isProd
-//         ? {
-//             ssl: {
-//               require: true,
-//               rejectUnauthorized: false,
-//             },
-//           }
-//         : {},
-//     })
-//   : new Sequelize({
-//       database: process.env.DATABASE_NAME,
-//       username: process.env.DATABASE_USERNAME,
-//       password: process.env.DATABASE_PASSWORD,
-//       host: process.env.DATABASE_HOST,
-//       port: Number(process.env.DATABASE_PORT),
-//       dialect: "postgres",
-//       models: [User, UserProfile, Job, Application, RefreshToken, Comment],
-//     });
+export const sequelize = process.env.DATABASE_URL
+  ? new Sequelize(process.env.DATABASE_URL, {
+      dialect: "postgres",
+      models: [User, UserProfile, Job, Application, RefreshToken, Comment],
+      dialectOptions: isProd
+        ? {
+            ssl: {
+              require: true,
+              rejectUnauthorized: false,
+            },
+          }
+        : {},
+    })
+  : new Sequelize({
+      database: process.env.DATABASE_NAME,
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      host: process.env.DATABASE_HOST,
+      port: Number(process.env.DATABASE_PORT),
+      dialect: "postgres",
+      models: [User, UserProfile, Job, Application, RefreshToken, Comment],
+    });
 
 export const initDb = async () => {
   try {
