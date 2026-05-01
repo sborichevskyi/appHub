@@ -2,7 +2,7 @@
 
 ## 🌐 Live
 
-🔗 [View Live App](https://app-hub-wheat.vercel.app)
+[View Live App](https://app-hub-wheat.vercel.app)
 
 ## 🧠 About
 
