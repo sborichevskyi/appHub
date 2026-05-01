@@ -1,4 +1,9 @@
 # 🚀 AppHub
+
+## 🌐 Live
+
+🔗 [View Live App](https://app-hub-wheat.vercel.app)
+
 ## 🧠 About
 
 Job searching across multiple platforms quickly becomes chaotic.
