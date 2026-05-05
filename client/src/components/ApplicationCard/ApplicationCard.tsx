@@ -33,14 +33,8 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({
   const [commentText, setCommentText] = useState("");
   const [createComment] = useCreateCommentMutation();
   const [openStatusBar, setOpenStatusBar] = useState(false);
-
-  // const statusFlow = [
-  //   "not_applied",
-  //   "applied",
-  //   "interview",
-  //   "rejected",
-  //   "hired",
-  // ];
+  const description = job?.description ?? "";
+  const showMore = description.length > 200;
 
   const handleToggle = (e: React.MouseEvent<HTMLParagraphElement>) => {
     e.stopPropagation();
@@ -133,35 +127,6 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({
       <div className="application-card no-job" ref={appRef}>
         <p>Job details not found.</p>
         <div className="application-card__actions">
-          {/* <button
-            className={`step ${application.status}`}
-            onClick={handleStatusChange}
-            disabled={isLoading}
-          ></button> */}
-          {/* <div className="application-card__status-wrapper">
-  <button
-    className={`step ${application.status}`}
-    onClick={openStatusChange}
-    disabled={isLoading}
-  />
-
-  {openStatusBar && (
-    <div
-      className="application-card__status-dropdown"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {statusFlow.map((status) => (
-        <div
-          key={status}
-          className={`status-option ${status}`}
-          onClick={() => handleStatusSelect(status)}
-        >
-          {status.replace("_", " ")}
-        </div>
-      ))}
-    </div>
-  )}
-</div> */}
           <StatusButton
             job={job}
             application={application}
@@ -194,15 +159,16 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({
           <p>
             <b>Location:</b> {`${job.country}, ${job.location}`}
           </p>
+          {description && (
+            <p
+              className={`application-card__description ${expanded ? "expanded" : ""}`}
+              onClick={handleToggle}
+            >
+              {job.description}
+            </p>
+          )}
 
-          <p
-            className={`application-card__description ${expanded ? "expanded" : ""}`}
-            onClick={handleToggle}
-          >
-            {job.description}
-          </p>
-
-          {job.description.length > 200 && (
+          {showMore && (
             <span className="application-card__more" onClick={handleToggle}>
               {expanded ? "show less" : "read more"}
             </span>

@@ -74,6 +74,13 @@ export class Job extends Model {
   })
   level?: string;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  isCustom!: boolean;
+
   @HasMany(() => Comment, {
     foreignKey: "jobId",
     onDelete: "CASCADE",

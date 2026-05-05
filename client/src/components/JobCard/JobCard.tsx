@@ -19,6 +19,8 @@ export const JobCard: React.FC<{ job: Job }> = ({ job }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [createApplication, { isLoading }] = useCreateApplicationMutation();
   const isSaved = applications.some((app) => app.jobId === job.id);
+  const description = job?.description ?? "";
+  const showMore = description.length > 200;
 
   const handleToggle = (e: React.MouseEvent<HTMLParagraphElement>) => {
     e.stopPropagation();
@@ -67,10 +69,10 @@ export const JobCard: React.FC<{ job: Job }> = ({ job }) => {
           className={`job-card__description ${expanded ? "expanded" : ""}`}
           onClick={handleToggle}
         >
-          {job.description}
+          {description}
         </p>
 
-        {job.description.length > 200 && (
+        {showMore && (
           <span className="job-card__more" onClick={handleToggle}>
             {expanded ? "show less" : "read more"}
           </span>

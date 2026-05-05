@@ -7,3 +7,4 @@ export const jobsRouter = express.Router();
 
 jobsRouter.get('/', isAuth, jobsController.getRelevantJobs);
 jobsRouter.get('/:id', isAuth, jobsController.getJobById);
+jobsRouter.post('/job', isAuth, jobsController.createManualJob);

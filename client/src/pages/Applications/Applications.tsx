@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { ApplicationCard } from "../../components/ApplicationCard/ApplicationCard";
+import { Button } from "../../components/Button/Button";
 import { Loader } from "../../components/Loader/Loader";
 import { demoApplications } from "../../constants/demoApplications";
 import { demoJobs } from "../../constants/demoJobs";
@@ -7,6 +9,7 @@ import { useGetCommentsByJobsQuery, type Comment } from "../../features/comments
 import { isDemoMode } from "../../shared/heplers/demoHelper";
 import { useAuth } from "../../shared/hooks/authHook";
 import "./Applications.scss";
+import { ModalCreateApp } from "../../components/ModalCreateApp/ModalCreateApp";
 
 export const Applications: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -36,6 +39,7 @@ export const Applications: React.FC = () => {
     },
     {} as Record<string, Comment[]>,
   );
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -58,6 +62,15 @@ export const Applications: React.FC = () => {
   return (
     <div className="applications-container">
       <h1>My Applications</h1>
+      <div className="createManualApp">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setModalOpen(true)}
+        >
+          <p>+</p>
+        </Button>
+      </div>
       {applications.length === 0 ? (
         <p>You haven't saved any jobs yet.</p>
       ) : (
@@ -74,6 +87,8 @@ export const Applications: React.FC = () => {
           ))}
         </ul>
       )}
+
+      {modalOpen && <ModalCreateApp onClose={() => setModalOpen(false)} />}
     </div>
   );
 };

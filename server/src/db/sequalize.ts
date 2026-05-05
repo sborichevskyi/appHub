@@ -37,7 +37,11 @@ export const initDb = async () => {
   try {
     await sequelize.authenticate();
     console.log("✅ Database connected");
-    await sequelize.sync();
+    if (process.env.NODE_ENV === "development") {
+      await sequelize.sync({ alter: true });
+    } else {
+      await sequelize.sync();
+    }
   } catch (err) {
     console.error("❌ Database connection failed:", err);
   }

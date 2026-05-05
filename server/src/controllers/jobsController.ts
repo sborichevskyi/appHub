@@ -52,7 +52,35 @@ const getJobById = async (req: Request, res: Response) => {
   }
 };
 
+const createManualJob = async (req: Request, res: Response) => {
+  try {
+    const { title, company, country, location, url, level } = req.body;
+
+    const jobData = {
+      title,
+      company,
+      country,
+      location,
+      url,
+      source: 'manual',
+      level,
+      isCustom: true,
+    };
+
+    const job = await jobService.createManualJob({ jobData });
+
+    res.status(201).json({ job });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: 'Error creating manual job',
+    });
+  }
+};
+
 export const jobsController = {
   getRelevantJobs,
   getJobById,
+  createManualJob,
 };

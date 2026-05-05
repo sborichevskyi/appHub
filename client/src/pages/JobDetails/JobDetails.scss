@@ -5,7 +5,7 @@
   @include padding-inrow;
   display: flex;
   flex-direction: column;
-  // align-self: flex-start;
+  width: 100%;
   max-width: 1400px;
 
   &__buttons {

@@ -34,58 +34,27 @@ const getRelevantJobs = async ({
 
   const jobs = await Job.findAll({
     where: {
+      isCustom: {
+        [Op.eq]: false,
+      },
+
       ...(country && { country: { [Op.iLike]: `%${country}%` } }),
       ...(location && { location: { [Op.iLike]: `%${location}%` } }),
-  // ...(level && { level: { [Op.iLike]: `%${level}%` } }),
 
-      ...(textConditions.length && {
-        [Op.or]: textConditions,
-      }),
+      ...(textConditions.length
+        ? {
+            [Op.and]: [
+              {
+                [Op.or]: textConditions,
+              },
+            ],
+          }
+        : {}),
     },
-    order: [['createdAt', 'DESC']],
+    order: [["createdAt", "DESC"]],
   });
 
   return jobs;
-  // const orConditions: any[] = [];
-
-  // if (role) {
-  //   orConditions.push(
-  //     { title: { [Op.iLike]: `%${role}%` } },
-  //     { description: { [Op.iLike]: `%${role}%` } },
-  //   );
-  // }
-
-  // for (const keyword of keywords) {
-  //   orConditions.push(
-  //     { title: { [Op.iLike]: `%${keyword}%` } },
-  //     { description: { [Op.iLike]: `%${keyword}%` } },
-  //   );
-  // }
-
-  // const where: any = {};
-
-  // if (country) {
-  //   where.country = { [Op.iLike]: `%${country}%` };
-  // }
-
-  // if (location) {
-  //   where.location = { [Op.iLike]: `%${location}%` };
-  // }
-
-  // if (level) {
-  //   where.level = { [Op.iLike]: `%${level}%` };
-  // }
-
-  // if (orConditions.length) {
-  //   where[Op.or] = orConditions;
-  // }
-
-  // const jobs = await Job.findAll({
-  //   where,
-  //   order: [["createdAt", "DESC"]],
-  // });
-
-  // return jobs;
 };
 
 const getJobById = async (id: string) => {
@@ -93,7 +62,13 @@ const getJobById = async (id: string) => {
   return job;
 };
 
+const createManualJob = async ({ jobData }: { jobData: any }) => {
+  const job = await Job.create(jobData);
+  return job;
+};
+
 export const jobService = {
   getRelevantJobs,
   getJobById,
+  createManualJob,
 };

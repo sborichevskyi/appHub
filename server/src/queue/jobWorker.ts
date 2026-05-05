@@ -38,6 +38,7 @@ import { detectLevel } from '../utils/detectLevel';
         location: v.location,
         source: v.source,
         level: level,
+        isCustom: false,
       },
     );
     }
