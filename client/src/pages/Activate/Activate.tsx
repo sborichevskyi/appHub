@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export const Activate = () => {
   const [params] = useSearchParams();
   const token = params.get("token");
-  const navigate = useNavigate();
+  const requestedToken = useRef<string | null>(null);
 
   const [status, setStatus] = useState("loading");
 
@@ -15,7 +15,13 @@ export const Activate = () => {
       return;
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/auth/activate?token=${token}`)
+    // StrictMode runs effects twice in dev; the token is single-use
+    if (requestedToken.current === token) return;
+    requestedToken.current = token;
+
+    fetch(`${import.meta.env.VITE_API_URL}/auth/activate?token=${token}`, {
+      credentials: "include",
+    })
       .then((res) => {
         if (!res.ok) throw new Error();
         return res.json();
@@ -31,12 +37,13 @@ export const Activate = () => {
   useEffect(() => {
     if (status === "success") {
       const timer = setTimeout(() => {
-        navigate("/profile");
+        // Full reload so App re-runs the refresh query with the new cookies
+        window.location.assign("/profile");
       }, 1000);
 
       return () => clearTimeout(timer);
     }
-  }, [status, navigate]);
+  }, [status]);
 
   if (status === "loading") return <h1>Activating...</h1>;
   if (status === "success") return <h1>✅ Account activated</h1>;
