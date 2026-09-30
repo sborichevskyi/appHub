@@ -27,7 +27,7 @@ import { detectLevel } from '../utils/detectLevel';
 
     for (const v of vacancies) {
       const normalizedUrl = v.url.split('?')[0];
-      const level = detectLevel(v.titile, v.descdescription);
+      const level = detectLevel(v.title, v.description);
 
       await Job.upsert({
         title: v.title,

@@ -46,7 +46,13 @@ const register = async (req: Request, res: Response) => {
       newUser.activationToken,
     )}`;
 
-    await sendActivationEmail({ to: email, activationLink });
+    try {
+      await sendActivationEmail({ to: email, activationLink });
+    } catch (emailErr) {
+      // Roll back so the user can register again with the same email
+      await userModel.deleteUser(newUser);
+      throw emailErr;
+    }
 
     console.log(newUser.activationToken);
     const user = userModel.normalizeUser(newUser);

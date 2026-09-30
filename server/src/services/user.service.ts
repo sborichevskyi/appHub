@@ -38,6 +38,10 @@ export const createUser = async (name: string, email: string, passwordHash: stri
   return newUser;
 };
 
+export const deleteUser = async (user: User) => {
+  await user.destroy();
+};
+
 export const activateByToken = async (token: string) => {
   const user = await User.findOne({ where: { activationToken: token } });
 

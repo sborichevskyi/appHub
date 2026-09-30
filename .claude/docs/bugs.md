@@ -51,7 +51,7 @@ There is also a mismatch between the client and server response handling. The cl
 ---
 
 ## BUG-005 — Failed activation email leaves a stuck account
-Status: open
+Status: done
 Priority: high
 
 The user row is created before the activation email is sent (`authController.ts`).
@@ -65,7 +65,7 @@ There is also no way for the user to request another activation email, leaving t
 ---
 
 ## BUG-006 — Deleting an application deletes other users' notes
-Status: open
+Status: done
 Priority: high
 
 Deleting an application calls:
@@ -81,7 +81,7 @@ Because scraped jobs are shared between users, deleting an application for one u
 ---
 
 ## BUG-007 — Manual jobs collide on the unique `(source, url)` index
-Status: open
+Status: done
 Priority: high
 
 `Job.ts:16` has a unique index on `(source, url)`.
@@ -99,7 +99,7 @@ There is also a partial-creation problem: if `createJob` succeeds but `createApp
 ---
 
 ## BUG-008 — Worker doesn't store the correct job level
-Status: open
+Status: done
 Priority: medium
 
 `jobWorker.ts:30` passes `v.titile` and `v.descdescription` to the level detector.
@@ -113,7 +113,7 @@ There is also a second mismatch: even after fixing the property names, the value
 ---
 
 ## BUG-009 — Applications API returns incorrect status codes
-Status: open
+Status: done
 Priority: medium
 
 The applications update, delete and create services throw errors when a resource is not found or already exists.
@@ -127,7 +127,7 @@ An invalid application status can also result in a database error and is returne
 ---
 
 ## BUG-010 — GET /users exposes every user's name and email
-Status: open
+Status: done
 Priority: high
 
 `GET /users` (`userController.ts:9`) allows any logged-in user to retrieve every user's name and email.
@@ -139,7 +139,7 @@ There is also an empty `catch {}` block. If the database query fails, the contro
 ---
 
 ## BUG-011 — Requests fire when the user isn't logged in
-Status: open
+Status: done
 Priority: high
 
 `Jobs.tsx` and each `JobCard` call `useGetUserApplicationsQuery()` without a `skip` condition.
@@ -155,7 +155,7 @@ In demo mode or when logged out, these requests return `401`. This triggers the 
 ---
 
 ## BUG-012 — Missing application is treated as an error
-Status: open
+Status: done
 Priority: medium
 
 `GET /applications/:jobId` returns `404` when the user hasn't saved an application for the requested job.

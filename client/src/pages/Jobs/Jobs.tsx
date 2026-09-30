@@ -23,15 +23,15 @@ const sortOptions: Option[] = [
 
 export const Jobs: React.FC = () => {
   const [sort, setSort] = useState<Option | null>(sortOptions[0]);
+  const isDemo = isDemoMode();
+  const { isAuthenticated } = useAuth();
+  const shouldFetch = isAuthenticated && !isDemo;
   const { data: applicationsData, isLoading: applicationsLoading } =
-    useGetUserApplicationsQuery();
+    useGetUserApplicationsQuery(undefined, { skip: !shouldFetch });
 
   const applications = useMemo<Application[]>(() => {
     return applicationsData?.applications ?? [];
   }, [applicationsData?.applications]);
-  const isDemo = isDemoMode();
-  const { isAuthenticated } = useAuth();
-  const shouldFetch = isAuthenticated && !isDemo;
   const { data, isLoading } = useGetRelevantJobsQuery(undefined, {
     skip: !shouldFetch,
     refetchOnMountOrArgChange: true,

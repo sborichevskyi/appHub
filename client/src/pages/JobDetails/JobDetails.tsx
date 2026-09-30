@@ -135,9 +135,7 @@ export const JobDetails: React.FC = () => {
       <div className="status-section">
         <p>
           <b>Current Status:</b>{" "}
-          {applicationData
-            ? applicationData.application?.status
-            : "Not Applied"}
+          {applicationData?.application?.status ?? "Not Applied"}
         </p>
       </div>
       <div className="job-details__buttons">
