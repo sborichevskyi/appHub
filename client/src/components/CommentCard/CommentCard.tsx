@@ -50,7 +50,9 @@ export const CommentCard: React.FC<CommentCardProps> = ({
           <p>{comment.text}</p>
         )}
       </div>
-      <small>{new Date(comment.createdAt).toLocaleString()}</small>
+      <small className="comment-card__timestamp">
+        {new Date(comment.createdAt).toLocaleString()}
+      </small>
     </div>
   );
 };
