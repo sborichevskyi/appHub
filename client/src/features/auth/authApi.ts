@@ -15,7 +15,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     signup: builder.mutation<
-      { user: User; accessToken: string },
+      User,
       { name: string; email: string; password: string }
     >({
       query: (body) => ({

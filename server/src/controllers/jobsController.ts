@@ -61,7 +61,7 @@ const createManualJob = async (req: Request, res: Response) => {
       company,
       country,
       location,
-      url,
+      url: url || null,
       source: 'manual',
       level,
       isCustom: true,

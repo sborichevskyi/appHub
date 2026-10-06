@@ -8,11 +8,16 @@
   cursor: pointer;
   border-radius: 8px;
   border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 
   transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.1s ease;
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
 
   &:disabled {
     opacity: 0.5;
@@ -71,12 +76,11 @@
   &--ghost {
     background: transparent;
     color: var(--color-primary);
-    border: 1px solid currentColor;
 
     &:hover {
       background: color-mix(
         in srgb,
-        var(--color-primary) 12%,
+        var(--color-primary) 5%,
         transparent
       );
     }

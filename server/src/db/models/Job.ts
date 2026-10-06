@@ -58,9 +58,9 @@ export class Job extends Model {
 
   @Column({
     type: DataType.TEXT,
-    allowNull: false,
+    allowNull: true,
   })
-  url!: string;
+  url?: string | null;
 
   @Column({
     type: DataType.TEXT,

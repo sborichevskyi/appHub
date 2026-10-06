@@ -6,6 +6,7 @@ import { setCredentials } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import "./Login.scss";
 import { Loader } from "../../components/Loader/Loader";
+import { closeDemo } from "../../shared/heplers/demoHelper";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export const Login: React.FC = () => {
     try {
       const response = await login({ email, password }).unwrap();
       dispatch(setCredentials({ user: response.user, token: response.accessToken }));
+      closeDemo();
       navigate('/home', { replace: true });
     } catch (err) {
       console.error('Login failed', err);

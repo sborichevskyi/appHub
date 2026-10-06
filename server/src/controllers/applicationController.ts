@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { applicationService } from '../services/application.service';
+import { HttpError } from '../utils/HttpError';
 
 const createApplication = async (req: Request, res: Response) => {
   try {
@@ -18,6 +19,10 @@ const createApplication = async (req: Request, res: Response) => {
 
     res.status(201).json({ application });
   } catch (error) {
+    if (error instanceof HttpError) {
+      return res.status(error.status).json({ message: error.message });
+    }
+
     console.error(error);
 
     res.status(500).json({
@@ -66,6 +71,10 @@ const updateApplicationStatus = async (req: Request, res: Response) => {
 
     res.json({ application: updatedApplication });
   } catch (error) {
+    if (error instanceof HttpError) {
+      return res.status(error.status).json({ message: error.message });
+    }
+
     console.error(error);
 
     res.status(500).json({
@@ -94,6 +103,10 @@ const deleteApplication = async (req: Request, res: Response) => {
 
     res.json({ application: deletedApplication });
   } catch (error) {
+    if (error instanceof HttpError) {
+      return res.status(error.status).json({ message: error.message });
+    }
+
     console.error(error);
 
     res.status(500).json({
@@ -116,10 +129,6 @@ const getApplicationByJobId = async (req: Request, res: Response) => {
     }
 
     const application = await applicationService.getApplicationByJobId(String(jobId), req.user.id);
-
-    if (!application) {
-      return res.status(404).json({ message: 'Application not found for this job and user' });
-    }
 
     res.json({ application });
   } catch (error) {

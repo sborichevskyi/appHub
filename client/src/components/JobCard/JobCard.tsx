@@ -9,10 +9,14 @@ import {
 import type { Application } from "../../features/applications/applocationSlice";
 import { useNavigate } from "react-router-dom";
 import { isDemoMode } from "../../shared/heplers/demoHelper";
+import { useAuth } from "../../shared/hooks/authHook";
 
 export const JobCard: React.FC<{ job: Job }> = ({ job }) => {
   const navigate = useNavigate();
-  const { data } = useGetUserApplicationsQuery();
+  const { isAuthenticated } = useAuth();
+  const { data } = useGetUserApplicationsQuery(undefined, {
+    skip: isDemoMode() || !isAuthenticated,
+  });
   const applications: Application[] = data?.applications ?? [];
   const [expanded, setExpanded] = useState(false);
   const [saved, setSaved] = useState(false);

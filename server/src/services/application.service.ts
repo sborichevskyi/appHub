@@ -1,18 +1,21 @@
 import { Application, Comment, Job } from "../db/sequalize";
+import { HttpError } from "../utils/HttpError";
 
-type StatusType = 'not_applied' | 'applied' | 'interview' | 'rejected' | 'hired';
+const STATUSES = ['not_applied', 'applied', 'interview', 'rejected', 'hired'] as const;
+
+type StatusType = typeof STATUSES[number];
 
 const createApplication = async (jobId: string, userId: string) => {
   const existing = await Application.findOne({ where: { jobId, userId } });
 
   if (existing) {
-    throw new Error("Application already exists");
+    throw new HttpError(409, "Application already exists");
   }
 
   const job = await Job.findByPk(jobId);
-  
+
   if (!job) {
-    throw new Error("Job not found");
+    throw new HttpError(404, "Job not found");
   }
 
   const application = await Application.create({ jobId, userId, status: 'not_applied' });
@@ -36,10 +39,14 @@ const getApplicationsByUserId = async (userId: string) => {
 };
 
 const updateApplicationStatus = async (applicationId: string | string[], status: StatusType, userId: string) => {
+  if (!STATUSES.includes(status)) {
+    throw new HttpError(400, "Invalid application status");
+  }
+
   const application = await Application.findOne({ where: { id: applicationId, userId } });
 
   if (!application) {
-    throw new Error("Application not found or not owned by user");
+    throw new HttpError(404, "Application not found or not owned by user");
   }
 
   application.status = status;
@@ -52,11 +59,11 @@ const deleteApplication = async (applicationId: string | string[], userId: strin
   const application = await Application.findOne({ where: { id: applicationId, userId } });
 
   if (!application) {
-    throw new Error("Application not found or not owned by user");
+    throw new HttpError(404, "Application not found or not owned by user");
   }
 
   await Comment.destroy({
-    where: { jobId: application.jobId },
+    where: { jobId: application.jobId, userId },
   });
 
   await application.destroy();

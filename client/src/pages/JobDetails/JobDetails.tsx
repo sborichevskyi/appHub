@@ -135,9 +135,7 @@ export const JobDetails: React.FC = () => {
       <div className="status-section">
         <p>
           <b>Current Status:</b>{" "}
-          {applicationData
-            ? applicationData.application?.status
-            : "Not Applied"}
+           {applicationData?.application?.status?.replace("_", " ") ?? "Not Applied"}
         </p>
       </div>
       <div className="job-details__buttons">
@@ -178,20 +176,20 @@ export const JobDetails: React.FC = () => {
 
       <div className="comments-section">
         <h2>Notes</h2>
-        <div className="add-comment">
-          <textarea
-            id="createComment"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a note..."
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleAddComment();
-              }
-            }}
-          />
-        </div>
+          <div className="add-comment">
+            <textarea
+              id="createComment"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a note..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleAddComment();
+                }
+              }}
+            />
+          </div>
 
         {comments.length === 0 && <p>Add your first note</p>}
         {comments.map((comment) => (

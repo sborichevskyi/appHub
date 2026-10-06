@@ -28,7 +28,9 @@ export const Applications: React.FC = () => {
   const jobIds = applications.flatMap((app) =>
     app.job?.id ? [app.job.id] : [],
   );
-  const { data: comments = [] } = useGetCommentsByJobsQuery(jobIds);
+  const { data: comments = [] } = useGetCommentsByJobsQuery(jobIds, {
+    skip: demo || !isAuthenticated || jobIds.length === 0,
+  });
   const commentsByJobId = comments.reduce(
     (acc, comment) => {
       if (!acc[comment.jobId]) {
