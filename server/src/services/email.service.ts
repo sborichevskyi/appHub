@@ -1,6 +1,6 @@
-import { Resend } from "resend";
+import axios from "axios";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
 
 export interface SendEmailParams {
   to: string;
@@ -15,16 +15,28 @@ export interface SendActivationEmailParams {
 }
 
 export async function sendEmail({ to, subject, html }: SendEmailParams) {
-  const { error } = await resend.emails.send({
-    from: process.env.EMAIL_FROM || "onboarding@resend.dev",
-    to,
-    subject,
-    html,
-  });
+  const senderEmail = process.env.EMAIL_FROM;
 
-  if (error) {
-    console.error("Resend error:", error);
-    throw error;
+  if (!process.env.BREVO_API_KEY || !senderEmail) {
+    throw new Error("BREVO_API_KEY and EMAIL_FROM must be set");
+  }
+
+  try {
+    await axios.post(
+      BREVO_API_URL,
+      {
+        sender: { name: process.env.EMAIL_FROM_NAME || "AppHub", email: senderEmail },
+        to: [{ email: to }],
+        subject,
+        htmlContent: html,
+      },
+      { headers: { "api-key": process.env.BREVO_API_KEY } },
+    );
+  } catch (err) {
+    // Rethrow a plain error: AxiosError carries request headers (incl. the API key)
+    const details = axios.isAxiosError(err) ? err.response?.data ?? err.message : err;
+    console.error("Brevo error:", details);
+    throw new Error("Failed to send email");
   }
 }
 
